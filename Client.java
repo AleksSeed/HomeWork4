@@ -31,8 +31,9 @@ public class Client extends JFrame implements ActionListener,  KeyListener, Thre
     private final JTextField tfMessage = new JTextField();
     private final JButton btnSend = new JButton("Отправить");
     private final JList<String> userList = new JList<>();
+    
 //----------------------
-    private Log log1 = new Log("log.txt"); //Log.java
+    private Log log1 = new Log("log.txt"); //Log.java  
 //----------------------
 
     private Client() throws IOException {
@@ -52,8 +53,8 @@ public class Client extends JFrame implements ActionListener,  KeyListener, Thre
         spUsers.setPreferredSize(new Dimension(100, 0));
         cbAlwaysOnTop.addActionListener(this);
 //----------------
-        btnSend.addActionListener(this);
-        tfMessage.addKeyListener(this);
+        btnSend.addActionListener(this);  
+        tfMessage.addKeyListener(this);  
 //---------------
         panelTop.add(tfIPAddress);
         panelTop.add(tfPort);
@@ -110,12 +111,12 @@ public class Client extends JFrame implements ActionListener,  KeyListener, Thre
     }
 
 //----------------------------------------------------------------------изменения--------------------------------------
-    private void sendMess() {        //Пишем в консоль, то что отправили
-        String msg = tfMessage.getText();
-        if (msg.isEmpty() || msg.isEmpty()) return;
-        String user = userList.getSelectedValue();
-        if (user == null) return;
-        if (sendMessage(msg, user)) logUpdate(String.format("Пользователь %s : %s ", user, msg));
+    private void sendMess() {        //Пишем в консоль, то что отправили 
+        String msg = tfMessage.getText(); 
+        if (msg.isEmpty() || msg.isEmpty()) return; 
+        String user = userList.getSelectedValue(); 
+        if (user == null) return; 
+        if (sendMessage(msg, user)) logUpdate(String.format("Пользователь %s : %s ", user, msg)); 
 //-------------------------
 
         log1.append(String.format("Пользователь %s: %s", user, msg));        //Запись в лог
@@ -129,7 +130,7 @@ public class Client extends JFrame implements ActionListener,  KeyListener, Thre
 
     private String logUpdate(String msg) {     //добавление строки в log, внутренняя
         log.append(msg + " \n");
-        Log();
+        Log(); 
         return msg;
 
     }
