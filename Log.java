@@ -13,9 +13,10 @@ public class Log {
     }
 
     public void append(String logstring) {
-        String time = new SimpleDateFormat("hh:mm:ss").format(new Date());
+        String lineSeparator = System.getProperty("line.separator");                    //Каретка
+        String time = new SimpleDateFormat("hh:mm:ss dd:MM:yyyy").format(new Date());   //Время, число
         try (FileWriter logfile = new FileWriter(fileName, true);) {
-            logfile.write( time + ": " + logstring + "\n");
+            logfile.write( time + ": " + logstring + "" + lineSeparator);               //Запись в файл с кареткой
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
