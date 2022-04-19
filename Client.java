@@ -1,3 +1,20 @@
+package ru.geekbrains.HomeWork4;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
+
+public class Client extends JFrame implements ActionListener,  KeyListener, Thread.UncaughtExceptionHandler {
+    private static final int WIDTH = 400;
+    private static final int HEIGHT = 300;
 
     private final JTextArea log = new JTextArea();
 
@@ -14,9 +31,9 @@
     private final JTextField tfMessage = new JTextField();
     private final JButton btnSend = new JButton("Отправить");
     private final JList<String> userList = new JList<>();
-
-    private Log log1 = new Log("log.txt"); // Структура записи в логе
-
+//----------------------
+    private Log log1 = new Log("log.txt"); //Log.java
+//----------------------
 
     private Client() throws IOException {
         Thread.setDefaultUncaughtExceptionHandler(this);
@@ -34,10 +51,10 @@
         userList.setListData(users);
         spUsers.setPreferredSize(new Dimension(100, 0));
         cbAlwaysOnTop.addActionListener(this);
-
+//----------------
         btnSend.addActionListener(this);
         tfMessage.addKeyListener(this);
-
+//---------------
         panelTop.add(tfIPAddress);
         panelTop.add(tfPort);
         panelTop.add(cbAlwaysOnTop);
@@ -81,7 +98,6 @@
         }
     }
 
-
     @Override
     public void uncaughtException(Thread t, Throwable e) {
         e.printStackTrace();
@@ -93,13 +109,6 @@
                 "Исключение", JOptionPane.ERROR_MESSAGE);
     }
 
-
-    /**
-     * -1. Сообщение должно отсылаться либо по нажатию кнопки на форме, либо по нажатию кнопки Enter.
-     * -При «отсылке» сообщение перекидывается из нижнего поля в центральное.
-     * -2. Отправлять сообщения в лог по нажатию кнопки или по нажатию клавиши Enter.
-     * Создать лог в файле (показать комментарием, где и как Вы планируете писать сообщение в файловый журнал).
-     */
 //----------------------------------------------------------------------изменения--------------------------------------
     private void sendMess() {        //Пишем в консоль, то что отправили
         String msg = tfMessage.getText();
@@ -107,7 +116,9 @@
         String user = userList.getSelectedValue();
         if (user == null) return;
         if (sendMessage(msg, user)) logUpdate(String.format("Пользователь %s : %s ", user, msg));
+//-------------------------
 
+        log1.append(String.format("Пользователь %s: %s", user, msg));        //Запись в лог
         tfMessage.setText("");
     }
 
@@ -116,10 +127,11 @@
         return true;
     }
 
-    private String logUpdate(String msg) {     //добавление строки в log
-        log.append(msg + "\n");
+    private String logUpdate(String msg) {     //добавление строки в log, внутренняя
+        log.append(msg + " \n");
         Log();
         return msg;
+
     }
 
     @Override
@@ -138,16 +150,14 @@
     public void keyReleased(KeyEvent e) {
     }
 
-                 /**     Запись в файловый журнал     */
+    /**     Запись в файл     */
     private void Log() {
-        String lineSeparator = System.getProperty("line.separator");
         String msg = tfMessage.getText();
-        log1.append(msg + " \n");
-        tfMessage.setText(" ");
+      //  log1.append(msg + " \n");
+        tfMessage.setText("");
         try (FileWriter writer = new FileWriter("log.txt", true)) {
-            writer.write(" \n" + lineSeparator);
+            writer.write(" " );
             writer.flush();
-
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -155,11 +165,4 @@
         }
     }
 
-
-
 }
-
-
-
-
-
